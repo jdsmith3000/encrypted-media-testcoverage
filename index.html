@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Test suite coverage for Encrypted Media Extensions</title>
+    <meta charset='utf-8'>
+    <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            async class='remove'></script>
+    <script class='remove'>
+      var respecConfig = {
+        specStatus: "unofficial",
+        shortName: "encryptd-media-testcoverage",
+        editors: [{
+          name: "Jerry Smith",
+          url: "http://www.w3.org/People/#fd",
+          company: "Microsoft",
+          companyURL: "http://www.microsoft.com"
+        }],        
+        wg: "HTML Media Extensions Working Group",
+        wgURI: "http://www.w3.org/html/wg/",
+        wgPublicList: "public-html-media",
+        wgPatentURI: "http://www.w3.org/2004/01/pp-impl/40318/status",
+      };
+    </script>
+    <style type="text/css">
+      th, td {
+        border-bottom: thin solid grey;
+      }
+      td:last-child {
+        text-align: center;
+      }
+      .coverage {
+        font-weight: bold;
+        color: #e67300;
+      }
+      .covered {
+        color: #0c0;
+      }
+      .workneeded {
+        color: #c00;
+      }
+    </style>
+  </head>
+  <body>
+    <section id='abstract'>
+      <p>
+        This document provides a rough evaluation of the coverage of the Media Source test suite against the Media Source Extensions specification [[!MEDIA-SOURCE]].
+      </p>
+    </section>
+
+    <section id='sotd'>
+      <p>
+        This document is not even maintained.
+      </p>
+    </section>
+
+    <section>
+      <h2>Useful links</h2>
+      <ul>
+        <li><a href="https://w3c.github.com/media-source/">Media Source Extensions specification</a> (Editor's Draft)</li>
+        <li><a href="https://github.com/w3c/web-platform-tests/blob/master/media-source/">W3C test suite</a> (on GitHub)</li>
+        <li><a href="https://github.com/w3c/web-platform-tests/pulls?q=is%3Apr+is%3Aopen+label%3Amedia-source">Pull requests for the W3C test suite</a></li>
+        <li><a href="https://cs.chromium.org/chromium/src/third_party/WebKit/LayoutTests/http/tests/media/media-source/">Chromium test suite</a></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Remarks</h2>
+      <p>
+        All occurrences of <code>InvalidAccessError</code> in existing test files should be replaced by <code>TypeError</code> (changed in the spec in February 2016). The table below assumes that this has already been fixed.
+      </p>
+      <p><strong>ACTION:</strong> @tidoust to update the tests accordingly.</p>
+    </section>
+
+    <section id='table'>
+      <h2>Test coverage</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Section</th>
+            <th>Name</th>
+            <th>Test(s)</th>
+            <th>Covered</th>
+            <th>Assignee</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>How to update the table</h2>
+
+      <section>
+        <h2>How to update the list of sections</h2>
+        <p>
+          To update the rows that compose the coverage table, run the following steps:
+        </p>
+        <ol>
+          <li>Open the <a href="https://w3c.github.io/encrypted-media/">Encrypted Media Extensions</a> specification in your favorite browser</li>
+          <li>Run the following code in a console window to build the internal representation used to render the table above.</li>
+          <li>Copy the result and paste it in the <code>toc.js</code> file in the same folder as the source of this document.</li>
+          <li>Refresh this document.</li>
+        </ol>
+        <pre>
+// List of section titles to skip
+// (because they don't contain testable assertions per se)
+var sectionsToIgnore = [
+  'Introduction',
+  'Byte Stream Formats',
+  'Examples',
+  'Acknowledgments',
+  'Revision History',
+  'References',
+  'Event Summary',
+  'Track Buffers'
+];
+
+
+// Custom forEach function for querySelectorAll results
+var forEach = function (array, callback, scope) {
+  for (var i = 0; i < array.length; i++) {
+    callback.call(scope, array[i], i);
+  }
+};
+
+
+// Parse the table of contents and extract the sections of interest
+var extractTocRecursively = function (tocEntry, section) {
+  forEach(tocEntry.querySelectorAll('ul > li'), function (subTocEntry) {
+    if (subTocEntry.parentNode.parentNode !== tocEntry) {
+      return;
+    }
+
+    // Extract link and main title (skipping the section number in the "span")
+    var link = subTocEntry.querySelector('a');
+    var name = link.firstChild.nextSibling.textContent;
+    if (sectionsToIgnore.includes(name)) {
+      return;
+    }
+
+    var subSection = {
+      number: link.firstChild.textContent.trim(),
+      name: name,
+      url: link.getAttribute('href').substring(1)
+    };
+
+    if (!section.children) {
+      section.children = [];
+    }
+    section.children.push(subSection);
+    extractTocRecursively(subTocEntry, subSection);
+  });
+};
+
+var toc = { name: 'Table of Contents' };
+extractTocRecursively(document.querySelector('#toc'), toc);
+
+
+// Complete the extracted structure with attributes, methods, constructors
+// definitions.
+var addObjectPropertiesRecursively = function (section) {
+  if (section.children) {
+    section.children.forEach(addObjectPropertiesRecursively);
+    return;
+  }
+  forEach(document.querySelectorAll(
+    '#' + section.url + ' > dl:not(.switch) > dt'),
+    function (dfn) {
+      var type = dfn.parentNode.getAttribute('class') || 's';
+      var subSection = {
+        name: dfn.innerText,
+        url: dfn.getAttribute('id'),
+        type: type.substring(0, type.length - 1)
+      }
+      if (!section.children) {
+        section.children = [];
+      }
+      section.children.push(subSection);
+    }
+  );
+};
+addObjectPropertiesRecursively(toc);
+
+
+console.log(JSON.stringify(toc, null, 2));
+        </pre>
+      </section>
+
+      <section>
+        <h2>How to update the list of tests</h2>
+        <p>
+          To update the list of tests and have them link to the section(s) of the specification that they check, edit the <code>tests.js</code> file that sits along the source of this document. Nothing magic there, that's all the result of a bit of elbow grease. A given test may check more than one section in the specification.
+        </p>
+      </section>
+
+      <section>
+        <h2>How to update the coverage info</h2>
+        <p>
+          To update the information displayed in the last column, edit the <code>coverage.js</code> file that sits along the source of this document. The keys of the <code>coverage</code> object are the ID of the sections, and the values are rough estimate of the test coverage in percent, or an object with a <code>coverage</code> key that sets the coverage percentage, a <code>comments</code> key that lists possibles comments about the coverage (in an array of strings), and an <code>assignee</code> key that sets the person responsible for updating the test suite to cover the section.
+        </p>
+        <p>
+          If a section does not appear in the <code>coverage</code> object, a question mark will appear in the last column to indicate that coverage is unknown at this stage.
+        </p>
+      </section>
+    </section>
+  </body>
+
+  <script type="text/javascript" src="toc.js"></script>
+  <script type="text/javascript" src="tests.js"></script>
+  <script type="text/javascript" src="coverage.js"></script>
+  <script type="text/javascript">
+    // Index tests by section
+    var testsBySection = {};
+    tests.forEach(function (test) {
+      var checks = [];
+      if (Array.isArray(test.checks)) {
+        checks = test.checks;
+      }
+      else if (test.checks) {
+        checks = [test.checks];
+      }
+      checks.forEach(function (check) {
+        if (!testsBySection[check]) {
+          testsBySection[check] = [];
+        }
+        testsBySection[check].push(test);
+      });
+      if (checks.length === 0) {
+        if (test.useless) {
+          if (!testsBySection['useless']) {
+            testsBySection['useless'] = [];
+          }
+          testsBySection['useless'].push(test);
+        }
+        else {
+          if (!testsBySection['unknown']) {
+            testsBySection['unknown'] = [];
+          }
+          testsBySection['unknown'].push(test);
+        }
+      }
+    });
+
+
+    var getTestLink = function (test) {
+      // TODO: escape double quotes for title attribute
+      var link = '';
+      if (test.definedIn === 'chromium') {
+        link = '<a href="https://cs.chromium.org/chromium/src/third_party/WebKit/LayoutTests/http/tests/media/media-source/' +
+          test.url + '" target="media-source-testsuite-chromium"' +
+          (test.comment ? ' title="' + test.comment + '"' : '') + '>' +
+          test.url + '</a> (chromium)';
+      }
+      else {
+        link = '<a href="https://github.com/w3c/web-platform-tests/blob/master/media-source/' +
+          test.url + '" target="media-source-testsuite"' +
+          (test.comment ? ' title="' + test.comment + '"' : '') + '>' +
+          test.url + '</a>';
+      }
+      return link;
+    };
+
+
+    // Create the table out of toc.js and tests.js variables
+    var buildTableRecursively = function (section, prefix) {
+      var link = '<a href="https://w3c.github.io/media-source/#' +
+        section.url + '" target="media-source">' +
+        (section.number ? (section.number + ' ') : '') + 
+        section.name +
+        '</a>';
+      var tests = testsBySection['#' + section.url];
+      var testsTxt = '';
+      if (tests) {
+        tests.forEach(function (test) {
+          if (testsTxt) {
+            testsTxt += ',<br/>';
+          }
+          testsTxt += getTestLink(test);
+        });
+      }
+
+      var cover = {};
+      var covered = 'Unknown';
+      var coverTxt = '';
+      var assigneeTxt = '<span class="coverage">?</span>';
+      if (coverage.hasOwnProperty(section.url)) {
+        cover = coverage[section.url];
+        covered = ((typeof cover.coverage !== 'undefined') ?
+          cover.coverage :
+          ((cover.assignee || cover.comments) ? 'Unknown' : cover));
+        if (cover.assignee) {
+          assigneeTxt = cover.assignee;
+        }
+        else if (covered === 100) {
+          assigneeTxt = '';
+        }
+      }
+      if ((section !== toc) && !section.children) {
+        coverTxt = '<span class="coverage';
+        if (covered !== 'Unknown') {
+          if (covered === 100) {
+            coverTxt += ' covered';
+          }
+          else if (covered < 20) {
+            coverTxt += ' workneeded';
+          }
+        }
+        coverTxt += '"';
+        if (cover.comments) {
+          // TODO: escape double quotes
+          coverTxt += ' title="' +
+          (Array.isArray(cover.comments) ? cover.comments.join('\n') : cover.comments) +
+          '"';
+        }
+        coverTxt += '>';
+        if (covered === 'Unknown') {
+          coverTxt += '?';
+        }
+        else if (covered === 100) {
+          coverTxt += '✔';
+        }
+        else if (covered === 0) {
+          coverTxt += '✘';
+        }
+        else {
+          coverTxt += covered + '%';
+        }
+        coverTxt += '</span>';
+        tableBody.innerHTML += '<tr>' +
+          '<td>' + prefix + '</td>' +
+          '<td>' + link + '</td>' +
+          '<td>' + testsTxt + '</td>' +
+          '<td>' + coverTxt + '</td>' +
+          '<td>' + assigneeTxt + '</td>'
+          '</tr>';
+      }
+
+      if (!section.children) {
+        return;
+      }
+      if (section === toc) {
+        prefix = '';
+      }
+      else {
+        if (prefix) {
+          prefix += '<br/>&gt; ';
+        }
+        prefix += link;
+      }
+      section.children.forEach(function (subSection) {
+        buildTableRecursively(subSection, prefix);
+      });
+    };
+
+    var tableBody = document.querySelector('#table > table > tbody');
+    buildTableRecursively(toc);
+
+    var testsTxt = '';
+    if (testsBySection['unknown'] && (testsBySection['unknown'].length > 0)) {
+      testsBySection['unknown'].forEach(function (test) {
+        if (testsTxt) {
+          testsTxt += ',<br/>';
+        }
+        testsTxt += getTestLink(test);        
+      });
+      tableBody.innerHTML += '<tr>' +
+        '<td></td>' +
+        '<td>Unknown</td>' +
+        '<td>' + testsTxt + '</td>' +
+        '<td></td>' +
+        '<td></td>';
+    }
+
+    testsTxt = '';
+    if (testsBySection['useless'] && (testsBySection['useless'].length > 0)) {
+      testsBySection['useless'].forEach(function (test) {
+        if (testsTxt) {
+          testsTxt += ',<br/>';
+        }
+        testsTxt += getTestLink(test);        
+      });
+      tableBody.innerHTML += '<tr>' +
+        '<td></td>' +
+        '<td>May not be needed</td>' +
+        '<td>' + testsTxt + '</td>' +
+        '<td></td>' +
+        '<td></td>';
+    }
+  </script>
+</html>
