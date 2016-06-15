@@ -1,8 +1,8 @@
 /**********************************************************************
-Encrypted Media Extensions spec sections that need to be tested.
+Encrypted Encrypted Media Extensions spec sections that need to be tested.
 
 The structure should be updated when needed. Follow the steps described
-in the "How to update the table" section.
+in the "How to update the table" section in index.html.
 **********************************************************************/
 var toc = {
   "name": "Table of Contents",
