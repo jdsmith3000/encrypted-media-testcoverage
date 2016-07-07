@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Test suite coverage for Encrypted Media Extensions</title>
+    <title>Test Planning and Test Suite Coverage for Encrypted Media Extensions</title>
     <meta charset='utf-8'>
     <script src='https://www.w3.org/Tools/respec/respec-w3c-common'
             async class='remove'></script>
@@ -43,7 +43,7 @@
   <body>
     <section id='abstract'>
       <p>
-        This document provides a rough evaluation of the coverage of the test suite against the Encrypted Media Extensions specification [[!ENCRYPTED-MEDIA]].
+        This document defines the plan for building interoperability tests and evaluates the coverage of the test suite against the Encrypted Media Extensions specification [[!ENCRYPTED-MEDIA]].
       </p>
     </section>
 
@@ -58,6 +58,20 @@
       <ul>
         <li><a href="https://w3c.github.com/encrypted-media/">Encrypted Media Extensions specification</a> (Editor's Draft)</li>
      </ul>
+    </section>
+
+    <section>
+      <h2>Objective</h2>
+      <p>
+        For the EME specification to exit the Candidate Recommendation stage, two independent implementations as detailed in the CR Exit Criteria (Public Permissive version 3) document will be required to demonstrate each feature of the specification. The test suite is expected to demonstrate implementations beyond the Clear Key system required by the specification. There is no preliminary interoperability or implementation report yet.
+      </p>
+    </section>
+
+    <section>
+      <h2>Plan</h2>
+      <p>
+        To be added.
+      </p>
     </section>
 
     <section>
@@ -262,7 +276,7 @@ console.log(JSON.stringify(toc, null, 2));
 
     // Create the table out of toc.js and tests.js variables
     var buildTableRecursively = function (section, prefix) {
-      var link = '<a href="https://w3c.github.io/media-source/#' +
+      var link = '<a href="https://w3c.github.io/encrypted-media/#' +
         section.url + '" target="media-source">' +
         (section.number ? (section.number + ' ') : '') + 
         section.name +
