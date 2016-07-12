@@ -1,4 +1,11 @@
-//  Test coverage data must be manually entered.  The entries below are left from the Media Source Test Coverage documents from which these were derived.
+/**********************************************************************
+Encrypted Encrypted Media Extensions requirements coverage estimates
+
+This document estimates test coverage on each requirement section in the EME spec.
+
+Coverage data must be manually entered.  
+
+Sample from Media-Source:
 
 var coverage = {
   'widl-MediaSource-activeSourceBuffers': {
@@ -16,3 +23,5 @@ var coverage = {
     assignee: '@plehegar'
   }
 };
+
+**********************************************************************/

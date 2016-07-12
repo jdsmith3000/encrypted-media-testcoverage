@@ -69,7 +69,7 @@ var toc = {
         },
         {
           "name": "Permanent Identifiers",
-          "url": null,
+          "url": "permanent-identifier",
           "type": ""
         },
         {
@@ -79,7 +79,7 @@ var toc = {
         },
         {
           "name": "Use of Distinctive Identifiers and Distinctive Permanent Identifiers",
-          "url": null,
+          "url": "uses-distinctive-identifiers-or-distinctive-permanent-identifiers",
           "type": ""
         },
         {

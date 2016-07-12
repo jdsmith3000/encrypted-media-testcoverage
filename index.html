@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <title>Test Planning and Test Suite Coverage for Encrypted Media Extensions</title>
@@ -56,7 +56,7 @@
     <section>
       <h2>Useful links</h2>
       <ul>
-        <li><a href="https://w3c.github.com/encrypted-media/">Encrypted Media Extensions specification</a> (Editor's Draft)</li>
+        <li><a href="http://www.w3.org/TR/2016/CR-encrypted-media-20160705/">Encrypted Media Extensions specification</a> (Candidate Release)</li>
      </ul>
     </section>
 
@@ -70,8 +70,87 @@
     <section>
       <h2>Plan</h2>
       <p>
-        To be added.
+        Current status and next steps are summarized below.
       </p>
+	  <h3>Existing Tests</h3>
+	  <p>
+	    The currently checked in tests require the Clear Key CDM and exercise a range of EME requirements.  These tests are grouped here by general category.
+	  </p>
+	  <ul>
+		<li>RequestMediaKeySystemAccess and initDataType tests</li>
+		  <ul>
+			<li>encrypted-media-check-init-data-type.html</li>
+			<li>encrypted-media-clear-key-invalid-license.html</li>
+			<li>encrypted-media-clearkey-update-non-ascii-input.html</li>
+		  </ul>
+		<li>Basic MediaKeys, MediaKeySession and keyStatus tests</li>
+		  <ul>
+			<li>encrypted-media-events.html</li>
+			<li>encrypted-media-generate-request-disallowed-input.html</li>
+			<li>encrypted-media-keystatuses-multiple-sessions.html</li>
+			<li>encrypted-media-keystatuses-multiple-updates.html</li>
+			<li>encrypted-media-keystatuses.html</li>
+			<li>encrypted-media-not-callable-after-createsession.html</li>
+		  </ul>
+		<li>Session Management</li>
+		  <ul>
+			<li>encrypted-media-requestmediakeysystemaccess.html</li>
+			<li>encrypted-media-reset-src-after-setmediakeys.html</li>
+			<li>encrypted-media-session-closed-event.html</li>
+			<li>encrypted-media-update-disallowed-input.html</li>
+		  </ul>
+		<li>SetMediaKeys/li>
+		  <ul>
+			<li>encrypted-media-setmediakeys-again-after-playback.html</li>
+			<li>encrypted-media-setmediakeys-again-after-resetting-src.html</li>
+			<li>encrypted-media-setmediakeys-at-same-time.html</li>
+			<li>encrypted-media-setmediakeys-multiple-times-with-different-mediakeys.html</li>
+			<li>encrypted-media-setmediakeys-multiple-times-with-the-same-mediakeys.html</li>
+			<li>encrypted-media-setmediakeys-to-multiple-video-elements.html</li>
+			<li>encrypted-media-setmediakeys.html</li>
+		  </ul>
+		<li>Playback</li>
+		  <ul>
+			<li>encrypted-media-onencrypted.html</li>
+			<li>encrypted-media-playback-encrypted-and-clear-sources.html</li>
+			<li>encrypted-media-playback-multiple-sessions.html</li>
+			<li>encrypted-media-playback-setmediakeys-after-src.html</li>
+			<li>encrypted-media-playback-setmediakeys-before-src.html</li>
+			<li>encrypted-media-playback-two-videos.html</li>
+			<li>encrypted-media-waiting-for-a-key.html</li>
+		  </ul>	
+		<li>Lifetime & Garbage Collection Tests
+		  <ul>
+			<li>encrypted-media-async-creation-with-gc.html</li>
+			<li>encrypted-media-async-setcert-with-gc.html</li>
+			<li>encrypted-media-lifetime-mediakeys-with-session.html</li>
+			<li>encrypted-media-lifetime-mediakeys.html</li>
+			<li>encrypted-media-lifetime-mediakeysession-reference.html</li>
+			<li>encrypted-media-lifetime-mediakeysession-release-noreference.html</li>
+			<li>encrypted-media-lifetime-mediakeysession-release.html</li>
+			<li>encrypted-media-lifetime-multiple-mediakeys.html</li>
+		  </ul>
+		<li>Origins
+		  <ul>
+			<li>encrypted-media-syntax.html</li>
+			<li>encrypted-media-unique-origin.html</li>
+		  </ul>
+        </ul>
+      <p>
+        There is an existing Pull Request (w3c/web-platform-tests #3214 ) to add WebIDL checks as well.
+      </p>
+	  <h3>Next Steps</h3>
+	    <ol>
+		  <li>Integrate the WebIDL tests.</li>
+          <li>Assess the coverage of the current ClearKey tests combined with the WebIDL ones.</li>
+          <li>Create new tests to address the gaps in prioritized tiers:</li>
+            <ol type="a">
+			  <li>To test core functionality in commerical usage today.</li>
+			  <li>Tier 2:  Address other prioritized needs.</li>
+			  <li>Tier 3:  Any remaining testing gaps.</li>
+			</ol>
+        </ol>
+		 
     </section>
 
     <section>
